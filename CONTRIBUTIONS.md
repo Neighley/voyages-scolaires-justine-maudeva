@@ -3,7 +3,7 @@
 | Bloc | Responsable | Statut | Commits clés |
 |------|-------------|--------|--------------|
 | A — Auth + Rôles | Justine | Terminé | 266943d, 5485c6f, 7e7f74f |
-| B — Modèles | Justine | En cours | — |
+| B — Modèles | Justine | Terminé | 1cb91ba |
 | C — CRUD Voyages | Maudeva | À faire | — |
 | D — Participants | Maudeva | À faire | — |
 | E — API REST | Maudeva | À faire | — |
@@ -30,3 +30,30 @@
   - ajouter des champs en base via les migrations (que je savais déjà un peu faire)
   - mettre en place des Policies pour centraliser les règles d'accès
   - travailler de manière ordonnée et propre avec git/github dans un projet collaboratif
+
+- Commits représentatifs :
+  - 266943d
+  - 5485c6f
+  - 7e7f74f
+
+### Justine
+##### PHASE 2 - PARTIE B #####
+
+- Ce que j'ai réalisé :
+  - j'ai créé les modèles Laravel Voyage, Participant et Document
+  - j'ai généré automatiquement les fichiers de migration
+  - j'ai modifié les migrations pour ajouter les champs demandés
+  - j'ai exécuté les migrations pour créer les tables
+  - j'ai mis en place les premières relations Eloquent dans le modèle Voyage et dans le modèle Participant
+
+- Difficulté principale :
+  - aucune... hormis comprendre l'importance des migrations
+
+- Ce que j'ai appris :
+  - créer des modèles et migrations avec php artisan
+  - concevoir une base de données adaptée aux besoins fonctionnels
+  - utiliser Eloquent pour préparer les relations entre entités (hasMany etc)
+  - appliquer des migrations
+
+- Commit représentatif :
+  - 1cb91ba
