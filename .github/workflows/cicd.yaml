@@ -22,13 +22,10 @@ jobs:
 
       - run: cp .env.example .env && php artisan key:generate
 
-      - run: php artisan test > test_output.txt 2>&1 || true
-      - run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add test_output.txt
-          git commit -m "Capture test output" || true
-          git push || true
+      - run: touch database/database.sqlite
+      - run: npm install
+      - run: npm run build
+      - run: php artisan test
 
   build-push:
     needs: tests
@@ -38,6 +35,16 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm install
+        working-directory: www
+
+      - run: npm run build
+        working-directory: www
 
       - uses: docker/setup-qemu-action@v3
 
