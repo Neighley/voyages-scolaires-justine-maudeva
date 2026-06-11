@@ -28,3 +28,6 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+
+# Kubernetes secrets
+k8s/secret.yaml
