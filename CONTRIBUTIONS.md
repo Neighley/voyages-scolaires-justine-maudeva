@@ -57,3 +57,50 @@
 
 - Commit représentatif :
   - 1cb91ba
+
+# Contributions — Phase 3
+
+| Bloc | Responsable | Statut | Commits clés |
+|------|-------------|--------|--------------|
+| A — CI/CD | Justine | Terminé | a7785bd, 8843770 |
+| B — Kubernetes | Justine | Terminé | En attente de commit |
+| C — Déploiement Cloud | Maudeva | À faire | — |
+
+## Auto-évaluation (à remplir en fin de phase)
+
+### Justine
+##### PHASE 3 - PARTIE A #####
+
+- Ce que j'ai réalisé :
+  - Mise en place d'un workflow GitHub Actions pour les tests
+  - Correction des problèmes Vite dans la CI/CD
+  - Construction et publication automatique de l'image Docker sur GitHub Container Registry
+  - Résolution des problèmes de balises Docker
+
+- Difficulté principale :
+  - Comprendre l'origine des erreurs sur la CI/CD (manifest Vite manquant) et résoudre le conflit de la majuscule sur le nom d'utilisateur Docker.
+
+- Ce que j'ai appris :
+  - Configurer un workflow GitHub Actions
+  - Gérer les artefacts et packages (GHCR) depuis un environnement de CI
+
+- Commits représentatifs :
+  - a7785bd
+  - 8843770
+
+### Justine
+##### PHASE 3 - PARTIE B #####
+
+- Ce que j'ai réalisé :
+  - Création des manifestes Kubernetes (`deployment.yaml`, `migrate-job.yaml`)
+  - Connexion des manifestes à l'image GHCR publiée
+
+- Difficulté principale :
+  - Relier l'écosystème local K8s à l'image distante sans erreurs de permission (ImagePullBackOff).
+
+- Ce que j'ai appris :
+  - Les principes fondamentaux de Kubernetes (Deployments, Jobs)
+  - La gestion de l'imagePullPolicy et de l'accessibilité des registres de conteneurs
+
+- Commit représentatif :
+  - (À venir lors du push de la branche / des fichiers k8s)
