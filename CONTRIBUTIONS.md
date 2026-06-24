@@ -63,7 +63,7 @@
 | Bloc | Responsable | Statut | Commits clés |
 |------|-------------|--------|--------------|
 | A — CI/CD | Justine | Terminé | a7785bd, 8843770 |
-| B — Kubernetes | Justine | Terminé | En attente de commit |
+| B — Kubernetes | Justine | Terminé | 0b0f11b, fc4e34c |
 | C — Déploiement Cloud | Maudeva | À faire | — |
 
 ## Auto-évaluation (à remplir en fin de phase)
@@ -92,15 +92,38 @@
 ##### PHASE 3 - PARTIE B #####
 
 - Ce que j'ai réalisé :
-  - Création des manifestes Kubernetes (`deployment.yaml`, `migrate-job.yaml`)
-  - Connexion des manifestes à l'image GHCR publiée
+  - Création des manifestes Kubernetes (`deployment.yaml`, `migrate-job.yaml`, `service.yaml`, `ingress.yaml`, `configmap.yaml`, `secret.yaml`)
+  - Connexion des manifestes à l'image GHCR publiée et déploiement de l'application sur k3d
+  - Configuration de la haute disponibilité avec 2 replicas
+  - Résolution de la perte de session due au load-balancing en passant le `SESSION_DRIVER` de `file` à `database` dans le `configmap.yaml`
+  - Validation de la résilience du cluster via la suppression d'un pod sans interruption de service
 
 - Difficulté principale :
   - Relier l'écosystème local K8s à l'image distante sans erreurs de permission (ImagePullBackOff).
+  - Comprendre l'impact de l'orchestration sur l'état de l'application (le piège des sessions stockées localement sur le disque du pod)
 
 - Ce que j'ai appris :
-  - Les principes fondamentaux de Kubernetes (Deployments, Jobs)
+  - Les principes fondamentaux de Kubernetes (Deployments, Jobs, Ingress, Services, ConfigMaps, Secrets)
   - La gestion de l'imagePullPolicy et de l'accessibilité des registres de conteneurs
+  - L'importance d'une application "stateless" en environnement orchestré pour garantir une expérience utilisateur fluide avec plusieurs replicas
 
-- Commit représentatif :
-  - (À venir lors du push de la branche / des fichiers k8s)
+- Commits représentatifs :
+  - 0b0f11b
+  - fc4e34c
+
+## Décisions d'architecture
+
+### 1. Image unique Apache vs pod multi-conteneurs (nginx + fpm)
+Décision : Utilisation d'une image unique Apache + PHP (php:8.3-apache).
+Alternatives écartées : Déploiement multi-conteneurs avec Nginx et PHP-FPM séparés.
+Pourquoi : L'image unique est plus simple à maintenir, réduit la complexité du déploiement Kubernetes et suffit largement pour les besoins de ce projet, tout en évitant les problèmes de partage de volumes entre conteneurs pour le code statique.
+
+### 2. Driver de sessions
+Décision : Utilisation de la base de données MariaDB (`SESSION_DRIVER=database`).
+Alternatives écartées : `file`, `cookie`, `redis`.
+Pourquoi : Avec `file`, la session est perdue lors du load-balancing car chaque pod a son propre système de fichiers (l'application doit être stateless). Les cookies sont limités en taille. Redis serait la solution idéale et plus performante pour mettre en cache les sessions, mais cela ajouterait un pod supplémentaire à gérer. La base de données MariaDB est déjà présente et suffit pour l'instant.
+
+### 3. Stratégie de tag d'images (:latest vs :sha)
+Décision : Utilisation du tag `:latest` pour le déploiement.
+Alternatives écartées : Tag explicite par version ou par SHA du commit.
+Pourquoi : Avec `imagePullPolicy: Always`, le tag `:latest` permet à Kubernetes de toujours télécharger la dernière image poussée sur GHCR, ce qui simplifie grandement les tests en phase de développement. Dans un contexte de vraie production, utiliser le SHA garantirait une traçabilité et une réversibilité exactes.
