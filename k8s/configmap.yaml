@@ -11,5 +11,5 @@ data:
   DB_HOST: mariadb
   DB_PORT: "3306"
   DB_DATABASE: voyages_scolaires
-  SESSION_DRIVER: file
+  SESSION_DRIVER: database
   LOG_CHANNEL: stderr
