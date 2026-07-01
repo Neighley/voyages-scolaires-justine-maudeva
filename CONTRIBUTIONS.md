@@ -4,9 +4,9 @@
 |------|-------------|--------|--------------|
 | A — Auth + Rôles | Justine | Terminé | 266943d, 5485c6f, 7e7f74f |
 | B — Modèles | Justine | Terminé | 1cb91ba |
-| C — CRUD Voyages | Maudeva | À faire | — |
-| D — Participants | Maudeva | À faire | — |
-| E — API REST | Maudeva | À faire | — |
+| C — CRUD Voyages | Maudeva | Terminée | 43471f4 |
+| D — Participants | Maudeva | Terminé | 43471f4 |
+| E — API REST | Maudeva | Terminé | 37a2b11 |
 
 ## Auto-évaluation (à remplir en fin de phase)
 
@@ -57,6 +57,51 @@
 
 - Commit représentatif :
   - 1cb91ba
+ 
+Maudeva
+PHASE 2 - PARTIE C
+Ce que j'ai réalisé :
+- Création du contrôleur VoyageController pour gérer le CRUD des voyages.
+- Enregistrement des routes de ressources web protégées par le middleware d'authentification ("auth").
+- Implémentation des validations de données strictes dans store() (champs obligatoires, dates futures avec after:today et retour après le départ).
+- Création de la vue Blade index pour lister les voyages et gérer l'accès conditionnel aux boutons d'action via les directives @can de Laravel.
+Difficulté principale :
+- Mettre en place et tester les règles de validation dynamique des dates (s'assurer que la date de retour est bien postérieure à la date de départ).
+Ce que j'ai appris :
+- Utiliser le système de validation intégré de Laravel pour sécuriser les données soumises par formulaire.
+- Manipuler les directives de droits d'accès (@can) directement dans les fichiers de vue Blade.
+Commit représentatif :
+- 43471f4
+
+Maudeva
+PHASE 2 - PARTIE D
+Ce que j'ai réalisé :
+- Création du contrôleur ParticipantController gérant l'inscription d'un utilisateur à un voyage.
+- Implémentation de la validation de l'inscription (vérification de la présence de l'user_id dans la table users).
+- Ajout d'une route spécifique de type PATCH pour gérer la validation de l'autorisation parentale.
+- Utilisation de la méthode authorize('update', $participant) pour sécuriser l'enregistrement de l'autorisation en base de données.
+Difficulté principale :
+- Lier correctement les autorisations (Policies) au contrôleur de participation pour restreindre l'approbation aux utilisateurs légitimes.
+Ce que j'ai appris :
+- Déclarer et utiliser des routes d'actions spécifiques (PATCH) en dehors des CRUD standards.
+- Appliquer les règles de sécurité avec les Policies de Laravel pour protéger les actions sensibles en base.
+Commit représentatif :
+- 43471f4
+
+Maudeva
+PHASE 2 - PARTIE E
+Ce que j'ai réalisé :
+- Configuration et installation de l'API Laravel et du module d'authentification Sanctum.
+- Création de VoyageApiController avec l'option --api sous Docker.
+- Implémentation des endpoints index() (avec pagination et chargement de la relation participants) et show() (avec Route Model Binding et chargement imbriqué participants.user).
+- Création et structuration d'une collection de tests API complète avec Bruno (alternative open-source à Postman) stockée dans le dossier api-tests/.
+Difficulté principale :
+- Résoudre le problème d'installation des dépendances Composer dans le conteneur Docker lors de la génération du contrôleur d'API.
+Ce que j'ai appris :
+- Concevoir des contrôleurs d'API REST standardisés renvoyant du JSON propre avec Laravel.
+- Utiliser le client Bruno pour écrire, structurer et versionner des tests d'API directement dans le dépôt Git.
+Commit représentatif :
+- 37a2b11
 
 # Contributions — Phase 3
 
