@@ -13,7 +13,7 @@ class VoyagePolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class VoyagePolicy
      */
     public function view(User $user, Voyage $voyage): bool
     {
-        return false;
+        return true;
     }
 
     /**

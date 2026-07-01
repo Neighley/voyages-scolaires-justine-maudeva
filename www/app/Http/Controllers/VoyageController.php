@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Voyage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
@@ -14,10 +15,9 @@ class VoyageController extends Controller
      */
     public function index()
     {
-       // 1. On récupère tous les voyages stockés en Base de Données
+        Gate::authorize('viewAny', Voyage::class);
         $voyages = Voyage::all();
 
-        // 2. On renvoie la vue "voyages.index" en lui passant la liste
         return view('voyages.index', compact('voyages'));
     }
 
@@ -26,7 +26,8 @@ class VoyageController extends Controller
      */
     public function create()
     {
-        // Pour afficher le formulaire de création
+        Gate::authorize('create', Voyage::class);
+        return view('voyages.create');
     }
 
     /**
@@ -34,6 +35,8 @@ class VoyageController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        Gate::authorize('create', Voyage::class);
+
         $validated = $request->validate([
             'destination' => 'required|string|max:255',
             'date_depart' => 'required|date|after:today',
@@ -51,32 +54,50 @@ class VoyageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Voyage $voyage)
     {
-        //
+        Gate::authorize('view', $voyage);
+        return view('voyages.show', compact('voyage'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Voyage $voyage)
     {
-        //
+        Gate::authorize('update', $voyage);
+        return view('voyages.edit', compact('voyage'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Voyage $voyage)
     {
-        //
+        Gate::authorize('update', $voyage);
+
+        $validated = $request->validate([
+            'destination' => 'required|string|max:255',
+            'date_depart' => 'required|date',
+            'date_retour' => 'required|date|after:date_depart',
+            'places_max' => 'required|integer|min:1|max:200',
+        ]);
+
+        $voyage->update($validated);
+
+        return redirect()->route('voyages.index')
+            ->with('success', 'Voyage mis à jour.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Voyage $voyage)
     {
-        //
+        Gate::authorize('delete', $voyage);
+        $voyage->delete();
+
+        return redirect()->route('voyages.index')
+            ->with('success', 'Voyage supprimé.');
     }
 }
