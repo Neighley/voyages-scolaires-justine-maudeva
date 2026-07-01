@@ -1,0 +1,20 @@
+meta {
+  name: Créer voyage
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/api/voyages
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "destination": "Rome",
+    "date_depart": "2026-03-15",
+    "date_retour": "2026-03-22",
+    "places_max": 50
+  }
+}
