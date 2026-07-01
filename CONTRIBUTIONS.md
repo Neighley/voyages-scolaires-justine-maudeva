@@ -109,7 +109,7 @@ Commit représentatif :
 |------|-------------|--------|--------------|
 | A — CI/CD | Justine | Terminé | a7785bd, 8843770 |
 | B — Kubernetes | Justine | Terminé | 0b0f11b, fc4e34c |
-| C — Déploiement Cloud | Maudeva | À faire | — |
+| C — Déploiement Cloud | Maudeva | Terminé  | 348c482, 234f9ee, 5de41cb |
 
 ## Auto-évaluation (à remplir en fin de phase)
 
@@ -155,6 +155,28 @@ Commit représentatif :
 - Commits représentatifs :
   - 0b0f11b
   - fc4e34c
+ 
+Maudeva
+PHASE 3 - PARTIE C
+Ce que j'ai réalisé :
+- Création de la ressource de sauvegarde dans k8s/backup-cronjob.yaml comprenant le CronJob de backup MariaDB et son PVC (PersistentVolumeClaim) dédié de 1 Go.
+- Configuration du script automatisé de dump de la base de données s'exécutant tous les jours à 3h du matin.
+- Mise en œuvre du Plan B (compilation locale des assets Vite sur l'hôte, construction de l'image de production et importation dans le cluster via k3d) pour résoudre l'erreur 500 et contourner les lenteurs de téléchargement de GHCR.
+- Déploiement et validation manuelle réussie de la sauvegarde avec la création d'un Job test-backup, générant un dump SQL fonctionnel de 13 Ko sur le PVC.
+
+Difficulté principale :
+- Configurer la connexion de kubectl à l'API Server de k3d sous Windows (résolue en modifiant l'adresse host.docker.internal par 127.0.0.1 dans le fichier de configuration kubeconfig).
+- Diagnostiquer l'erreur 500 sur l'écran de connexion (Vite manifest absent) et configurer le cycle de build local complet avant la création de l'image.
+
+Ce que j'ai appris :
+- Configurer et orchestrer des services d'état (StatefulSet, PVC) sous Kubernetes.
+- Automatiser des tâches de maintenance récurrentes à l'aide des CronJobs Kubernetes.
+- Diagnostiquer des problèmes de volumes et de réseau grâce aux commandes de diagnostic kubectl (describe, logs, run).
+
+Commits représentatifs :
+- 348c482
+- 234f9ee
+- 5de41cb
 
 ## Décisions d'architecture
 
