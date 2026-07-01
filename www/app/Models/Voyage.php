@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Voyage extends Model
 {
+    protected $fillable = [
+        'destination',
+        'date_depart',
+        'date_retour',
+        'places_max',
+        'user_id',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
