@@ -9,8 +9,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: migrate
-          image: voyages:local
-          imagePullPolicy: Never
+          image: ghcr.io/neighley/voyages-scolaires-justine-maudeva:latest
           command: ["php", "artisan", "migrate", "--force"]
           envFrom:
             - configMapRef:

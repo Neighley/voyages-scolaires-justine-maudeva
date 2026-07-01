@@ -14,8 +14,7 @@ spec:
     spec:
       containers:
         - name: laravel
-          image: voyages:local
-          imagePullPolicy: Never
+          image: ghcr.io/neighley/voyages-scolaires-justine-maudeva:latest
           ports:
             - containerPort: 80
           envFrom:
