@@ -9,7 +9,8 @@ spec:
       restartPolicy: Never
       containers:
         - name: migrate
-          image: ghcr.io/neighley/voyages-scolaires-justine-maudeva:latest # TODO : la MÊME image que le Deployment
+          image: voyages:local
+          imagePullPolicy: Never
           command: ["php", "artisan", "migrate", "--force"]
           envFrom:
             - configMapRef:
