@@ -9,7 +9,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('voyages', Api\VoyageApiController::class);
+    Route::apiResource('voyages', Api\VoyageApiController::class)->names('api.voyages');
     Route::get('voyages/{voyage}/participants', [Api\VoyageApiController::class, 'participants']);
 });
 
