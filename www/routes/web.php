@@ -10,7 +10,19 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = Auth::user();
+    $inscriptions = collect();
+    $mesVoyages = collect();
+
+    if ($user->role === 'eleve') {
+        $inscriptions = \App\Models\Voyage::whereHas('participants', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->get();
+    } elseif (in_array($user->role, ['enseignant', 'admin'])) {
+        $mesVoyages = \App\Models\Voyage::where('user_id', $user->id)->get();
+    }
+
+    return view('dashboard', compact('inscriptions', 'mesVoyages'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
